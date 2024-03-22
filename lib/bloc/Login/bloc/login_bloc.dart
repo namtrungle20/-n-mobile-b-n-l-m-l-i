@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-      );
+      ).timeout(Duration(seconds: 10)); // Thiết lập thời gian chờ là 10 giây
 
       if (response.statusCode == 200) {
         // Xử lý phản hồi từ API để xác định đăng nhập có thành công hay không

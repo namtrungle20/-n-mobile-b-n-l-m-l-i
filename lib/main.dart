@@ -14,10 +14,15 @@ import 'states/workout_states.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Khởi tạo HydratedStorage
   final storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
-  HydratedBlocOverrides.runZoned(() => runApp(const WorkoutTime()),
-      storage: storage);
+
+  // Chạy ứng dụng trong một vùng được ghi nhớ
+  HydratedBlocOverrides.runZoned(
+    () => runApp(const WorkoutTime()),
+    storage: storage,
+  );
 }
 
 class WorkoutTime extends StatelessWidget {
