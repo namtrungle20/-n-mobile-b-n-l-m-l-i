@@ -11,8 +11,11 @@ class LoginRequested extends LoginEvent {
   final String username;
   final String password;
 
-  LoginRequested({required this.username, required this.password});
+  const LoginRequested({required this.username, required this.password});
 
   @override
   List<Object> get props => [username, password];
+
+  @override
+  String toString() => 'LoginRequested { username: $username, password: $password }';
 }

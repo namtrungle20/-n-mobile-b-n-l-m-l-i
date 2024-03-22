@@ -4,11 +4,17 @@ import 'package:doanmobile/model/exercises.dart';
 import 'package:doanmobile/model/workout.dart';
 import 'package:doanmobile/states/workout_states.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 class WorkoutProgress extends StatelessWidget {
-  const WorkoutProgress({Key? key}) : super(key: key);
+  WorkoutProgress({Key? key}) : super(key: key);
+
+  final FlickManager flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.networkUrl(
+          Uri.parse('https://www.youtube.com/watch?v=Jru5B044HOs&t=64s')));
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +34,13 @@ class WorkoutProgress extends StatelessWidget {
 
       return {
         "workoutTitle": workout.title,
-        "workoutProgress": workoutElapsed/workoutTotal,
+        "workoutProgress": workoutElapsed / workoutTotal,
         "workoutElapsed": workoutElapsed,
         "totalExercise": workout.exercises.length,
         "currentExecireIndex": exercises.index!.toDouble(),
         "workoutRemaining": workoutTotal - workoutElapsed,
         "execireRemaining": exercisesRemaining,
-        "execireProgress": exercisesElapsed/exercisesTotal,
+        "execireProgress": exercisesElapsed / exercisesTotal,
         "isPrelude": isPrelude
       };
     }
@@ -72,13 +78,19 @@ class WorkoutProgress extends StatelessWidget {
                     ],
                   ),
                 ),
+                Center(
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: FlickVideoPlayer(flickManager: flickManager),
+                  ),
+                ),
                 const Spacer(),
                 InkWell(
-                  onTap:(){
-                    if(state is WorkoutInProgress){
+                  onTap: () {
+                    if (state is WorkoutInProgress) {
                       BlocProvider.of<WorkoutCubits>(context).pauseWorkout();
-                    }else if(state is WorkoutPaused){
-                       BlocProvider.of<WorkoutCubits>(context).resumeWorkout();
+                    } else if (state is WorkoutPaused) {
+                      BlocProvider.of<WorkoutCubits>(context).resumeWorkout();
                     }
                   },
                   child: Stack(

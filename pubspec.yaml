@@ -49,6 +49,8 @@ dependencies:
   wakelock: ^0.6.2
   dots_indicator: 
   table_calendar: ^3.0.0
+  video_player: ^2.8.3
+  flick_video_player: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,7 @@ flutter:
     - assets/stopwatch.png
     - assets/beep.oga
     - assets/ding.oga
+    - assets/7p.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
