@@ -1,19 +1,16 @@
-import 'package:doanmobile/bloc/workout_cubit.dart';
-import 'package:doanmobile/bloc/workout_cubits.dart';
-import 'package:doanmobile/model/workout.dart';
-import 'package:doanmobile/screen/edit_workout_screen.dart';
-import 'package:doanmobile/screen/homepage.dart';
-import 'package:doanmobile/screen/login_screen.dart';
-import 'package:doanmobile/screen/workout_in_progress.dart';
-import 'package:doanmobile/services/authentication_service.dart';
-import 'package:doanmobile/states/workout_states.dart';
+import 'package:doanmobile/bloc/Login/bloc/login_bloc.dart';
+import 'package:doanmobile/bloc/Login/bloc/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'bloc/Login/bloc/login_bloc.dart';
-import 'bloc/Login/bloc/login_state.dart';
+import 'bloc/workout_cubit.dart';
+import 'bloc/workout_cubits.dart';
+import 'screen/edit_workout_screen.dart';
+import 'screen/homepage.dart';
+import 'screen/login_screen.dart';
+import 'states/workout_states.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +21,7 @@ void main() async {
 }
 
 class WorkoutTime extends StatelessWidget {
-  const WorkoutTime({super.key});
+  const WorkoutTime({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +37,28 @@ class WorkoutTime extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider<LoginBloc>(
-              create: (context) =>
-                  LoginBloc(authService: AuthenticationService())),
-          BlocProvider<WorkoutCubit>(create: (BuildContext context) {
-            WorkoutCubit workoutCubit = WorkoutCubit();
-            if (workoutCubit.state.isEmpty) {
-              workoutCubit.getWorkouts();
-            }
-            return workoutCubit;
-          }),
+            create: (BuildContext context) => LoginBloc(),
+          ),
+          BlocProvider<WorkoutCubit>(
+            create: (BuildContext context) {
+              WorkoutCubit workoutCubit = WorkoutCubit();
+              if (workoutCubit.state.isEmpty) {
+                workoutCubit.getWorkouts();
+              }
+              return workoutCubit;
+            },
+          ),
           BlocProvider<WorkoutCubits>(
-              create: (BuildContext context) => WorkoutCubits())
+            create: (BuildContext context) => WorkoutCubits(),
+          ),
         ],
-        child: BlocBuilder<WorkoutCubits, WorkoutState>(
+        child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             if (state is LoginSuccess) {
-              return const HomePages(); // Chuyển sang HomePage khi đăng nhập thành công
-            } else if (state is WorkoutInitial) {
+              return const HomePages();
+            } else {
               return LoginScreen();
-            } else if (state is WorkoutEditing) {
-              return const EditWorkoutScreen();
             }
-            return const WorkoutProgress();
           },
         ),
       ),

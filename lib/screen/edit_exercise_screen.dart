@@ -83,7 +83,7 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
                 value: widget.workout!.exercises[widget.exIndex!].prelude!,
                 minValue: 0,
                 maxValue: 1000,
-                textMapper: (strVal) => fortmatTime(int.parse(strVal), false),
+                textMapper: (strVal) => formatTime(int.parse(strVal), false),
                 onChanged: (value) => setState(() {
                   widget.workout!.exercises[widget.exIndex!] =
                       widget.workout!.exercises[widget.exIndex!].copyWith(
@@ -153,7 +153,7 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
                 value: widget.workout!.exercises[widget.exIndex!].duration!,
                 minValue: 0,
                 maxValue: 1000,
-                textMapper: (strVal) => fortmatTime(int.parse(strVal), false),
+                textMapper: (strVal) => formatTime(int.parse(strVal), false),
                 onChanged: (value) => setState(() {
                   widget.workout!.exercises[widget.exIndex!] =
                       widget.workout!.exercises[widget.exIndex!].copyWith(

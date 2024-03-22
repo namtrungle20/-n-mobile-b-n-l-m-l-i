@@ -70,10 +70,10 @@ class EditWorkoutScreen extends StatelessWidget {
                           exIndex: we.exIndex);
                     } else {
                       return ListTile(
-                          leading: Text(fortmatTime(exercises.prelude!, true)),
+                          leading: Text(formatTime(exercises.prelude!, true)),
                           title: Text(exercises.title!),
                           trailing:
-                              Text(fortmatTime(exercises.duration!, true)),
+                              Text(formatTime(exercises.duration!, true)),
                           onTap: () => BlocProvider.of<WorkoutCubits>(context)
                               .editExercise(index));
                     }

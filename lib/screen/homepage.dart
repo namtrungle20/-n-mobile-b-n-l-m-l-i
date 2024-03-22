@@ -30,47 +30,50 @@ class HomePages extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocBuilder<WorkoutCubit, List<Workout>>(
-            builder: (context, workouts) => ExpansionPanelList.radio(
-                children: workouts
-                    .map((workout) => ExpansionPanelRadio(
-                        value: workout,
-                        headerBuilder:
-                            (BuildContext context, bool isExpanded) => ListTile(
-                                visualDensity: const VisualDensity(
-                                    horizontal: 0,
-                                    vertical: VisualDensity.maximumDensity),
-                                leading: IconButton(
-                                  onPressed: () {
-                                    BlocProvider.of<WorkoutCubits>(context)
-                                        .editWorkout(
-                                            workout, workouts.indexOf(workout));
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                ),
-                                title: Text(workout.title!),
-                                trailing:
-                                    Text(fortmatTime(workout.getTotal(), true)),
-                                onTap: () => !isExpanded
-                                    ? BlocProvider.of<WorkoutCubits>(context)
-                                        .startWorkout(workout)
-                                    : null),
-                        body: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: workout.exercises.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                ListTile(
-                                  onTap: null,
-                                  visualDensity: const VisualDensity(
-                                      horizontal: 0,
-                                      vertical: VisualDensity.maximumDensity),
-                                  leading: Text(fortmatTime(
-                                      workout.exercises[index].prelude!, true)),
-                                  title: Text(workout.exercises[index].title!),
-                                  trailing: Text(fortmatTime(
-                                      workout.exercises[index].duration!,
-                                      true)),
-                                ))))
-                    .toList())),
+          builder: (context, workouts) {
+            if (workouts.isEmpty) {
+              // Return a placeholder widget or a loading indicator
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return ExpansionPanelList.radio(
+                children: workouts.map((workout) {
+                  return ExpansionPanelRadio(
+                    value: workout,
+                    headerBuilder: (BuildContext context, bool isExpanded) {
+                      return ListTile(
+                        visualDensity: const VisualDensity(horizontal: 0, vertical: VisualDensity.maximumDensity),
+                        leading: IconButton(
+                          onPressed: () {
+                            BlocProvider.of<WorkoutCubits>(context).editWorkout(workout, workouts.indexOf(workout));
+                          },
+                          icon: const Icon(Icons.edit),
+                        ),
+                        title: Text(workout.title!),
+                        trailing: Text(formatTime(workout.getTotal(), true)),
+                        onTap: () => !isExpanded
+                            ? BlocProvider.of<WorkoutCubits>(context).startWorkout(workout)
+                            : null,
+                      );
+                    },
+                    body: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: workout.exercises.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          onTap: null,
+                          visualDensity: const VisualDensity(horizontal: 0, vertical: VisualDensity.maximumDensity),
+                          leading: Text(formatTime(workout.exercises[index].prelude!, true)),
+                          title: Text(workout.exercises[index].title!),
+                          trailing: Text(formatTime(workout.exercises[index].duration!, true)),
+                        );
+                      },
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          },
+        ),
       ),
     );
   }

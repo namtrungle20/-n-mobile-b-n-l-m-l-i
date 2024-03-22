@@ -63,12 +63,12 @@ class WorkoutProgress extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(fortmatTime(stats["workoutElapsed"], true)),
+                      Text(formatTime(stats["workoutElapsed"], true)),
                       DotsIndicator(
                         dotsCount: stats['totalExercise'],
                         position: stats['currentExecireIndex'].toInt(),
                       ),
-                      Text('-${fortmatTime(stats["workoutRemaining"], true)}')
+                      Text('-${formatTime(stats["workoutRemaining"], true)}')
                     ],
                   ),
                 ),
